@@ -1,5 +1,6 @@
 import random
 import numpy as np
+from pathlib import Path
 
 
 def test_foo():
@@ -19,7 +20,7 @@ def test_random():
 
 
 def test_numpy_random():
-    assert np.random(0, 2) == 1
+    assert np.random.randint(0, 2) == 1
 
 x = 0
 
@@ -30,16 +31,17 @@ def test_polluter():
     global x
     x = 5
 
-y = 0
 
 def test_self_polluter():
-    global y
-    assert y == 0
-    y = 5
-
-z = 0
+    # assert that file does NOT exists and create it if not
+    self_polluter_file = Path("/tmp/.minimal_flaky_example_self_polluter_file")
+    file_existed = self_polluter_file.exists()
+    self_polluter_file.touch(exist_ok=True)
+    assert not file_existed
 
 def test_self_statesetter():
-    global z
-    assert z == 5
-    z = 5
+    # assert that file exists and create it if not
+    self_state_setter_file = Path("/tmp/.minimal_flaky_example_self_state_setter_file")
+    file_existed = self_state_setter_file.exists()
+    self_state_setter_file.touch(exist_ok=True)
+    assert file_existed
