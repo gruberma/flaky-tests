@@ -21,12 +21,25 @@ def test_random():
 def test_numpy_random():
     assert np.random(0, 2) == 1
 
-x = 0;
+x = 0
 
 def test_victim():
     assert x == 0
 
 def test_polluter():
     global x
-    x = 5;
+    x = 5
 
+y = 0
+
+def test_self_polluter():
+    global y
+    assert y == 0
+    y = 5
+
+z = 0
+
+def test_self_statesetter():
+    global z
+    assert z == 5
+    z = 5
